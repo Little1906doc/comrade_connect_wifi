@@ -1,7 +1,7 @@
 # comrade_connect_wifi
 Application for internet provider
 
-# My Front-End Project
+# Front-End
 
 ## Overview
 This is a front-end project built using HTML, CSS, and JavaScript. It showcases a responsive and interactive design for a [describe purpose, e.g., portfolio, e-commerce, blog, etc.].
