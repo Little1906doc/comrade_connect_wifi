@@ -21,7 +21,7 @@ To view or edit the project locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/little1906doc/comrade_connect_wifi.git
+   git clone https://github.com/Little1906doc/comrade_connect_wifi.git
    ```
 
 2. Navigate to the project directory:
