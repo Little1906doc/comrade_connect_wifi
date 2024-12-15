@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+
+    <title> COMRADE CONNECT - My account</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-purple-main">
+      <a class="navbar-brand" href="index.html">COMRADE CONNECT</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="help.html">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="plans.html">Internet plans</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="home.html">My Account</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="javascript:;" onclick="apiLogout()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0"></form>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <div class="card mt-3 connect-card d-none" id="notice_card">
+        <div class="card-body">
+          <p id="notice_content"></p>
+        </div>
+      </div>
+
+      <div class="row ">
+
+        <div class="col-sm-4 mt-3" id="wallet_balance" style="display:none">
+          <div class="credit-card">
+            <div class="card-header">
+                <div class="card-logo">comrade</div>
+                <div class="card-number" id="card_account">1234 5678 9012 3456</div>
+            </div>
+            <div class="card-body">
+                <div class="card-holder" id="card_name">Cardholder Name</div>
+                <div class="card-expiry" id="card_joined">Joined: 12/24</div>
+                <div class="card-balance" id="card_balance">Balance: $1000.00</div>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-8 mx-auto mt-3" id="active_voucher_section">
+
+          <div class="card">
+            <div class="card-body" style="padding:2px">
+              <div class="text-center">
+                <img class="icon-lg" style="width: 40px;height: 40px" src="img/wifi.png" alt="logo" />
+              </div>
+    
+              <div id="no_plans" class="d-none mt-3">
+                <h5 class="text-center">You have 0.0 Mbs, 0 Minutes balance.</h5>
+                <p class="text-center">Please buy a plan to enjoy browsing.</p>
+              </div>
+    
+              <div id="has_plans" class="d-none">
+                <table class="table plan-table" style="text-size:10px">
+                  <tr>
+                    <td>Plan:</td>
+                    <td id="plan_name">$(balance)</td>
+                  </tr>
+                  <tr>
+                    <td>Data used:</td>
+                    <td id="plan_data_used">$(balance)</td>
+                  </tr>
+                  <tr>
+                    <td>Time used:</td>
+                    <td id="plan_time_used">$(balance)</td>
+                  </tr>
+                  <tr>
+                    <td id="plan_data_remain_label">Data remaining:</td>
+                    <td id="plan_data_remain">$(balance)</td>
+                  </tr>
+                  <tr>
+                    <td>Expires on:</td>
+                    <td id="plan_expiry">$(balance)</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+    
+
+        </div>
+
+      </div>
+
+      
+      <div class="text-center connect-card mt-5">
+        <a
+          href="plans.html"
+          class="btn buy-btn btn-primary bg-green-bright round-btn btn-block"
+        >
+          Buy internet bundle
+        </a>
+      </div>
+
+      <div class="mt-5">
+        <div id="current_operation"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card mt-5 home-card">
+            <div
+              class="card-header bg-purple-main"
+              data-toggle="collapse"
+              href="#profile_details"
+            >
+              <div>
+                <h6 class="mb-0">My Profile</h6>
+              </div>
+            </div>
+            <div class="collapse multi-collapse" id="profile_details">
+              <div class="card-body">
+                <table class="table home-table" style="word-wrap: break-word">
+                  <tr>
+                    <td>Username</td>
+                    <td>
+                      <p id="auth_username">$(username)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Name</td>
+                    <td>
+                      <p id="auth_name">$(name)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>
+                      <p id="auth_email">$(email)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Phone</td>
+                    <td>
+                      <p id="auth_phone">$(phone)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Joined</td>
+                    <td>
+                      <p id="auth_joined">$(date)</p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-5 home-card">
+            <div
+              class="card-header bg-accent-two"
+              data-toggle="collapse"
+              href="#profile_edit"
+            >
+              <div>
+                <h6 class="mb-0">Edit Profile</h6>
+              </div>
+            </div>
+            <div class="collapse multi-collapse" id="profile_edit">
+              <div class="card-body">
+                <div id="profile_msg" class="text-success"></div>
+
+                <table class="table home-table">
+                  <tr>
+                    <td>Name</td>
+                    <td>
+                      <input id="edit_name" type="text" class="form-control" />
+                    </td>
+                    <p class="text-sm text-danger" id="first_name_error"></p>
+                    <p class="text-sm text-danger" id="last_name_error"></p>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>
+                      <input
+                        id="edit_email"
+                        type="email"
+                        class="form-control"
+                      />
+                      <p class="text-sm text-danger" id="email_error"></p>
+                    </td>
+                  </tr>
+                </table>
+
+                <button
+                  id="change_profile_btn"
+                  onclick="changeProfile()"
+                  class="btn btn-primary bg-accent-one round-btn btn-block"
+                >
+                  <div class="loader">
+                    <div class="loader mb-0">
+                      <svg
+                        class="loading-spinner"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="#fff"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span class="text-white"> saving ...</span>
+                    </div>
+                  </div>
+
+                  <span class="default_text"> Change profile </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="card mt-5 home-card">
+            <div
+              class="card-header bg-accent-one"
+              data-toggle="collapse"
+              href="#password_edit"
+            >
+              <div>
+                <h6 class="mb-0">Change Your Password Here.</h6>
+              </div>
+            </div>
+            <div class="collapse multi-collapse" id="password_edit">
+              <div class="card-body">
+                <div id="password_msg" class="text-success"></div>
+                <table class="table home-table">
+                  <tr>
+                    <td>old password</td>
+                    <td>
+                      <input
+                        id="old_password"
+                        type="password"
+                        class="form-control"
+                      />
+                      <p
+                        class="text-sm text-danger"
+                        id="old_password_error"
+                      ></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>New password</td>
+                    <td>
+                      <input
+                        id="new_password"
+                        type="password"
+                        class="form-control"
+                      />
+                      <p
+                        class="text-sm text-danger"
+                        id="new_password_error"
+                      ></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Confirm password</td>
+                    <td>
+                      <input
+                        id="confirm_password"
+                        type="password"
+                        class="form-control"
+                      />
+                      <p
+                        class="text-sm text-danger"
+                        id="confirm_password_error"
+                      ></p>
+                    </td>
+                  </tr>
+                </table>
+
+                <button
+                  id="change_password_btn"
+                  onclick="changePassword()"
+                  class="btn btn-primary bg-accent-one round-btn btn-block"
+                >
+                  <div class="loader">
+                    <div class="loader mb-0">
+                      <svg
+                        class="loading-spinner"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="#fff"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span class="text-white"> Loading ...</span>
+                    </div>
+                  </div>
+
+                  <span class="default_text"> Change password </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-5 home-card">
+            <div
+              class="card-header bg-purple-main"
+              data-toggle="collapse"
+              href="#purchased_plans"
+            >
+              <div>
+                <h6 class="mb-0">My Purchased Plans</h6>
+              </div>
+            </div>
+            <div class="collapse multi-collapse" id="purchased_plans">
+              <div class="card-body">
+                <table class="table home-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Balance</th>
+                      <th>Expiry</th>
+                    </tr>
+                  </thead>
+                  <tbody id="purchased_plans_body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p class="font-weight-bold text-white mt-5">
+        Copyright © COMRADE CONNECT LIMITED
+      </p>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/utils.js"></script>
+
+    <script>
+      var access_token;
+
+      function getAuthUser() {
+        $.ajax({
+          type: "GET",
+          url: window.BASE_URL + "accounts/user/",
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            $("#auth_name").text(
+              response.first_name + " " + response.last_name
+            );
+            $("#auth_email").text(response.email);
+            $("#auth_phone").text(response.phone_no);
+            $("#auth_username").text(response.username);
+            $("#auth_joined").text(response.created_at);
+
+            // set the card data
+            $('#card_account').text(response.profiles[0].account_no)
+            $('#card_name').text(response.first_name + " " + response.last_name)
+            $('#card_joined').text('Joined: ' + convertUTCtoLocal(response.created_at))
+            $('#card_balance').text('Balance: KES.' + response.profiles[0].balance)
+
+            // fill edit form
+
+            $("#edit_name").val(response.first_name + " " + response.last_name);
+            $("#edit_email").val(response.email);
+
+            // set the phone number to cookie
+
+            addToCookie("phone_no", response.phone_no, 1);
+            addToCookie("customer", response.profiles[0].id, 1);
+            addToCookie("customer_balance", response.profiles[0].balance, 1);
+
+            // if the user has a balance then show wallet balance and set div #active_voucher_section to col-sm-8
+
+            if (response.profiles[0].balance > 0) {
+              $("#active_voucher_section").removeClass("col-sm-12");
+              $("#active_voucher_section").addClass("col-sm-8");
+              $("#wallet_balance").show();
+
+            }
+
+            getActiveVouchers();
+          },
+          error: function (response) {
+            console.log(response);
+          },
+        });
+      }
+
+      function getNotices() {
+        $.ajax({
+          type: "GET",
+          url: window.BASE_URL + "notices/",
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            if (response.count > 0) {
+              // show card notice and update it with contents of first
+              $("#notice_card").removeClass("d-none");
+
+              // remove content in #notice_content
+              $("#notice_card #notice_content").empty();
+
+              // add contents
+              for(var i=0;i<response.count;i++){
+                $("#notice_card #notice_content").append('<div class="notice_item"> '+response.results[i].content+' <button class="notice_mark_read" onclick="markAsRead(\''+response.results[i].id+'\')">Mark as read</button></div>');
+              }
+              
+            }else{
+              $("#notice_card").addClass("d-none");
+            }
+          },
+        });
+      }
+
+      function markAsRead(id){
+        $.ajax({
+          type: "GET",
+          url: window.BASE_URL + "notices/" + id + "/mark_as_read/",
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            getNotices();
+          },
+        });
+      }
+
+      function getActiveVouchers() {
+        var customer = getCookie("customer");
+        var nas_ip = getCookie("nas_ip");
+        $.ajax({
+          type: "GET",
+          url:
+            window.BASE_URL + "vouchers/" + customer + "/get_active_vouchers?nas_ip=" + nas_ip,
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            if (response.length > 0) {
+              renderPlan(response[0]);
+              $("#has_plans").removeClass("d-none");
+
+              // for all responses add rows to purchased_plans table
+              $("#purchased_plans_body").empty();
+              for (var i = 0; i < response.length; i++) {
+
+                var bill_by = response[i].billing_plan.bill_by;
+                var balance = 0;
+                if(bill_by == "packet"){
+                  try{
+                    var rem=0
+                    if(response[i].total_packets_used){
+                      rem = response[i].total_plan_packets - response[i].total_packets_used;
+                    }else{
+                        rem = response[i].total_plan_packets;
+                    }
+                    balance = getReadableFileSizeString(rem);
+                  }catch(e){
+                      console.log(e);
+                  }
+                    
+                    
+                }else{
+                  try{
+                    var rem=0;
+                    if(response[i].total_time_used){
+                      rem = (response[i].billing_plan.valid_for*60*1000) - (response[i].total_time_used*1000);
+                    }else{
+                        rem = (response[i].billing_plan.valid_for*60*1000);
+                    }
+                    balance = millisecondsToStr(rem);
+                  }catch(e){
+                      console.log(e);
+                  }
+                    
+                }
+
+                var ft_time = response[i].expiry
+                try{
+                    ft_time = convertUTCtoLocal(response[i].expiry);
+                }catch(e){
+                    console.log(e);
+                }
+                
+
+                var html =
+                  "<tr>" +
+                  "<td>" +
+                  response[i].billing_plan.display_name +
+                  "</td>" +
+                  "<td>" +
+                  balance +
+                  "</td>" +
+                  "<td>" +
+                  ft_time +
+                  "</td>" +
+                  "</tr>";
+                console.log(html);
+
+                $("#purchased_plans_body").append(html);
+              }
+            } else {
+              $("#no_plans").removeClass("d-none");
+            }
+          },
+          error: function (response) {
+            console.log(response);
+          },
+        });
+      }
+
+      function changeProfile() {
+        clearAllErrors();
+        toggleButtonLoadState("#change_profile_btn", true);
+
+        var full_name_split = $("#edit_name").val().split(" ");
+
+        var data = {
+          first_name: full_name_split[0],
+          last_name: full_name_split[1],
+          email: $("#edit_email").val(),
+        };
+
+        $.ajax({
+          type: "POST",
+          url: window.BASE_URL + "accounts/update_auth_user/",
+          data: data,
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            toggleButtonLoadState("#change_profile_btn", false);
+            flashSuccess("#profile_msg", "Profile changed successfully!");
+          },
+          error: function (response) {
+            processErrors(response.responseJSON.errors);
+            toggleButtonLoadState("#change_profile_btn", false);
+          },
+        });
+      }
+
+      window.post_auth_hook = function () {
+        // if user is authenticated
+        if (window.is_authenticated) {
+          access_token = getCookie("access_token");
+
+          getAuthUser();
+          getNotices();
+        } else {
+          // take user back to login
+          window.location.href = "pass_login.html";
+        }
+
+        initNasOps();
+      };
+
+      function changePassword() {
+        clearAllErrors();
+        toggleButtonLoadState("#change_password_btn", true);
+
+        // if password confirmation doesn't match
+        if ($("#new_password").val() != $("#confirm_password").val()) {
+          processErrors({
+            confirm_password: ["The password confirmation does not match"],
+          });
+          return;
+        }
+
+        var data = {
+          old_password: $("#old_password").val(),
+          new_password: $("#new_password").val(),
+        };
+
+        $.ajax({
+          type: "POST",
+          url: window.BASE_URL + "accounts/reset_password/",
+          data: data,
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            toggleButtonLoadState("#change_password_btn", false);
+            flashSuccess("#password_msg", "Password changed successfully!");
+          },
+          error: function (response) {
+            processErrors(response.responseJSON.errors);
+            toggleButtonLoadState("#change_password_btn", false);
+          },
+        });
+      }
+    </script>
+
+    <script src="js/nas_ops.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

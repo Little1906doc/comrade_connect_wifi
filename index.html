@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!---png favicon-->
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <title>COMRADE CONNECT - The Promised LAN</title>
+
+    <!--add meta for description-->
+    <meta
+      name="description"
+      content="Truth Wifi - The Promised Lan"
+    />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="container mt-5">
+        <div class="text-center">
+          <img class="logo" src="img/logo.png" alt="logo" />
+        </div>
+
+        <div class="row not-too-big-row mt-5 d-none" id="pre_auth_buttons">
+          <div class="col-6">
+            <a
+              href="pass_login.html"
+              class="btn btn-primary bg-accent-one round-btn btn-block"
+              >Sign in</a
+            >
+          </div>
+
+          <div class="col-6">
+            <a
+              href="register_account.html"
+              class="btn btn-primary bg-accent-two round-btn btn-block"
+              >Register</a
+            >
+          </div>
+        </div>
+
+        <div class="row not-too-big-row mt-5 d-none" id="post_auth_buttons">
+          <div class="col-6">
+            <a
+              href="home.html"
+              class="btn btn-primary bg-accent-one round-btn btn-block"
+              >My Account</a
+            >
+          </div>
+
+          <div class="col-6">
+            <a
+              href="javascript:;"
+              onclick="apiLogout()"
+              class="btn btn-primary bg-accent-two round-btn btn-block"
+              >Logout</a
+            >
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-white font-weight-bold mt-5 text-center header-title">
+            Access Fast and affordable packages
+          </h5>
+        </div>
+
+        <div class="row mt-3 mx-auto" id="plans"></div>
+
+        <div class="row">
+          <div class="text-center mx-auto my-3">
+            <a
+              href="tel:+254721998374"
+              class="btn call-btn btn-success round-btn btn-block"
+              >Call us</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="purchase_modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content glass-bg">
+          <div class="modal-header">
+            <h5 class="modal-title">Complete purchase</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="purchase_modal_body"></div>
+            <div id="purchase_modal_skip_checks">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  style="width: 30px; height: 30px"
+                  type="checkbox"
+                  onchange="checkSkipChecks(this.checked)"
+                  id="skip_checks_checkbox"
+                />
+                <label
+                  style="margin-left: 30px"
+                  class="form-check-label"
+                  for="skip_checks"
+                >
+                  You already have an Active Package. Do you want to Purchase Another One?
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row" style="flex-grow: 1">
+              <div class="col-6">
+                <button
+                  type="button"
+                  onclick="cancelPurchase()"
+                  id="purchase_cancel_option"
+                  class="btn btn-secondary round-btn btn-block"
+                  data-dismiss="modal"
+                >
+                  No
+                </button>
+              </div>
+
+              <div class="col-6">
+                <button
+                  id="plan_buy_btn"
+                  onclick="proceedBuy()"
+                  type="button"
+                  class="btn btn-primary round-btn btn-block bg-green-bright"
+                >
+                  <div class="loader">
+                    <div class="mb-0" class="loader">
+                      <svg
+                        class="loading-spinner"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="#fff"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span class="text-white"> Loading ...</span>
+                    </div>
+                  </div>
+
+                  <span class="default_text"> Yes </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p class="font-weight-bold text-white mt-5">
+        Copyright © COMRADE CONNECT
+      </p>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+    
+
+    <script>
+
+      
+      
+
+
+      var headers = {};
+      function getPlans() {
+        var nas_ip = getCookie("nas_ip");
+        $.ajax({
+          type: "GET",
+          url: window.BASE_URL + "billing/?nas_ip=" + nas_ip,
+          headers: headers,
+          success: function (json) {
+            var response = json;
+            try {
+              response = JSON.parse(json);
+            } catch (e) {
+              console.log(e);
+            }
+
+            $("#plans").empty();
+            for (i = 0; i < response.count; i++) {
+              var plan = response.results[i];
+
+              var bg_color = getBgColor(i);
+              var plan_template =
+                "<div onclick=\"buyPlan('" +
+                plan.id +
+                "', '" +
+                plan.display_name +
+                "', '" +
+                plan.price +
+                '\')" class="plan ' +
+                bg_color +
+                '">' +
+                "<p>" +
+                plan.display_name +
+                "</p>" +
+                "</div>";
+              $("#plans").append(plan_template);
+            }
+          },
+          error: function (response) {},
+        });
+      }
+
+      var access_token = "";
+
+      window.post_auth_hook = function () {
+        // if user is authenticated
+        access_token = getCookie("access_token");
+        if (window.is_authenticated) {
+          headers = {
+            Authorization: "Bearer " + access_token,
+          };
+
+          $("#post_auth_buttons").removeClass("d-none");
+        } else {
+          // take user back to login
+          $("#pre_auth_buttons").removeClass("d-none");
+        }
+
+        // set server address to cookies
+        var nas_ip = getUrlParameter("nas_ip");
+        if(nas_ip != null) {
+          addToCookie("nas_ip", nas_ip,1);
+          // having nas ip at this point means the page redirected from the mikrotik
+          // if so and user is authenticated take them to home.html
+          if(window.is_authenticated) {
+            window.location.href = "home.html";
+          }
+        }
+
+        getPlans();
+      };
+    </script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

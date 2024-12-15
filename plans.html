@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+
+    <title> COMRADE CONNECT - Internet packages</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-purple-main">
+      <a class="navbar-brand" href="index.html">COMRADE CONNECT</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="help.html">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="plans.html">Internet plans</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="home.html">My Account</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="javascript:;" onclick="apiLogout()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0"></form>
+      </div>
+    </nav>
+
+    <div id="wrapper">
+      <div class="container mt-5">
+        <div class="text-center">
+          <img class="logo" src="img/logo.png" alt="logo" />
+        </div>
+
+        <div>
+          <h5 class="text-white font-weight-bold mt-5 text-center header-title">
+            Our packages
+          </h5>
+        </div>
+
+        <div class="row mt-2 mx-auto" id="plans"></div>
+      </div>
+
+      <div class="modal" id="purchase_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content glass-bg">
+            <div class="modal-header">
+              <h5 class="modal-title">Complete purchase</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="purchase_modal_body"></div>
+              <div id="purchase_modal_skip_checks">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    style="width: 30px; height: 30px"
+                    type="checkbox"
+                    onchange="checkSkipChecks(this.checked)"
+                    id="skip_checks_checkbox"
+                  />
+                  <label
+                    style="margin-left: 30px"
+                    class="form-check-label"
+                    for="skip_checks"
+                  >
+                  You already have an Active Package. Do you want to Purchase Another One?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="row" style="flex-grow: 1">
+                <div class="col-6">
+                  <button
+                    type="button"
+                    onclick="cancelPurchase()"
+                    id="purchase_cancel_option"
+                    class="btn btn-secondary round-btn btn-block"
+                    data-dismiss="modal"
+                  >
+                    No
+                  </button>
+                </div>
+
+                <div class="col-6">
+                  <button
+                    id="plan_buy_btn"
+                    onclick="proceedBuy()"
+                    type="button"
+                    class="btn btn-primary round-btn btn-block bg-green-bright"
+                  >
+                    <div class="loader">
+                      <div class="mb-0" class="loader">
+                        <svg
+                          class="loading-spinner"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"
+                          ></circle>
+                          <path
+                            class="opacity-75"
+                            fill="#fff"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span class="text-white"> Loading ...</span>
+                      </div>
+                    </div>
+
+                    <span class="default_text"> Yes </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p class="font-weight-bold text-white mt-5">
+        Copyright © COMRADE CONNECT LIMITED
+      </p>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+
+    <script>
+      function getPlans() {
+        var nas_ip = getCookie("nas_ip");
+        $.ajax({
+          type: "GET",
+          url: window.BASE_URL + "billing/?nas_ip=" + nas_ip,
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+          success: function (response) {
+            $("#plans").empty();
+
+            for (i = 0; i < response.count; i++) {
+              var plan = response.results[i];
+
+              var bg_color = getBgColor(i);
+              var plan_template =
+                "<div onclick=\"buyPlan('" +
+                plan.id +
+                "', '" +
+                plan.display_name +
+                "', '" +
+                plan.price +
+                '\')" class="plan ' +
+                bg_color +
+                '">' +
+                "<p>" +
+                plan.display_name +
+                "</p>" +
+                "</div>";
+              $("#plans").append(plan_template);
+            }
+          },
+          error: function (response) {},
+        });
+      }
+
+      let access_token = "";
+
+      window.post_auth_hook = function () {
+        // if user is authenticated
+        if (window.is_authenticated) {
+          access_token = getCookie("access_token");
+
+          getPlans();
+        } else {
+          // take user back to login
+          window.location.href = "index.html";
+        }
+      };
+    </script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

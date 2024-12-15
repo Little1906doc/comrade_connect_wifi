@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+
+    <title> COMRADE CONNECT - Help</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-purple-main">
+      <a class="navbar-brand" href="index.html">COMRADE CONNECT</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="help.html">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="plans.html">Internet plans</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="home.html">My Account</a>
+          </li>
+          <li class="nav-item show_post_auth">
+            <a class="nav-link" href="javascript:;" onclick="apiLogout()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0"></form>
+      </div>
+    </nav>
+
+    <div id="help-items" class="container"></div>
+
+    <div class="text-center">
+      <p class="font-weight-bold text-white mt-5">
+        Copyright © COMRADE CONNECT LIMITED
+      </p>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      let faqs = [
+        {
+          id: 1,
+          question: "Can I login to the WiFi with more than one device?",
+          answer:
+            "Yes, our network allows you to connect two devices simultaneously.",
+        },
+        {
+          id: 2,
+          question: "What should I do if a payment made didn't reflect?",
+          answer:
+            "Use the claim mpesa payment feature on your dashboard to have the missing payment reflect.\n-If the problem persists, call us via 0745279809.",
+        },
+        {
+          id: 3,
+          question: "How can I track my data usage?",
+          answer:
+            "You can use any network monitoring tool like Glasswire from glasswire.com to see the Apps using up your data for Android and Windows devices.",
+        },
+        {
+          id: 4,
+          question:
+            "What should I do if I have an active package but can't go online?",
+          answer:
+            "- You're either logged in to 2 devices already and trying to log in with a 3rd one or you're accessing your dashboard outside our WiFi network.\n~Call support for further help on this.",
+        },
+        {
+          id: 5,
+          question:
+            "How do I request COMRADE CONNECT  installation in my area of residence?",
+          answer: "Call us via 0745279809",
+        },
+      ];
+
+      var id = "$(id)";
+      var question = "$(question)";
+      var answer = "$(answer)";
+
+      var help_template =
+        '<div class="card glass-bg mt-3 md:mt-5">' +
+        '<div class="card-header">' +
+        '<div class="mb-0">' +
+        '<p class="btn-link font-weight-bold text-purple-main h6 question" data-toggle="collapse" data-target="#collapse' +
+        id +
+        '" aria-expanded="true" aria-controls="collapse' +
+        id +
+        '">' +
+        question +
+        "</p>" +
+        "</div>" +
+        "</div>" +
+        '<div id="collapse' +
+        id +
+        '" class="" aria-labelledby="heading' +
+        id +
+        '" data-parent="#help-items">' +
+        '<div class="card-body h5 answer"><p>' +
+        answer +
+        "</p></div>" +
+        "</div>" +
+        "</div>";
+
+      for (var i = 0; i < faqs.length; i++) {
+        var help = help_template;
+        help = help.replace("$(id)", faqs[i].id);
+        help = help.replace("$(question)", faqs[i].question);
+        help = help.replace("$(answer)", faqs[i].answer);
+        $("#help-items").append(help);
+      }
+    </script>
+  </body>
+</html>
