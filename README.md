@@ -55,5 +55,5 @@ Feel free to fork this repository and submit pull requests for new features or b
 This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
-For questions or feedback, feel free to contact me at [your-email@example.com].
+For questions or feedback, feel free to contact me at [morrischomba1906@gmail.com].
 
